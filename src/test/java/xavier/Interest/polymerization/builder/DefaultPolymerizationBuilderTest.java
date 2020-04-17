@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import xavier.Interest.polymerization.DefaultPolymerizationBuilder;
 import xavier.Interest.polymerization.Tools;
 import xavier.Interest.polymerization.entity.DisperseData;
 import xavier.Interest.polymerization.entity.PolymerizationData;
@@ -25,7 +26,6 @@ public class DefaultPolymerizationBuilderTest {
         disperseDataList = new ArrayList<>();
         disperseDataList.add(new DisperseData(12.5, Tools.strToLocalDate("2020-04-12 12:00:01")));
     }
-
 
     @Nested
     @DisplayName("流程测试")

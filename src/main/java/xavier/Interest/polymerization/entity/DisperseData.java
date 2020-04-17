@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  * 离散数据对象，基本属性，数据值，数据时间
  */
 public class DisperseData {
-    static final Logger logger = LoggerFactory.getLogger(DisperseData.class);
+    private static final Logger logger = LoggerFactory.getLogger(DisperseData.class);
 
     private BigDecimal dataValue;
     private LocalDateTime dataDate;

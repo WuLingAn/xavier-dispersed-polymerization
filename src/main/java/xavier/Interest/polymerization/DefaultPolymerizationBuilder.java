@@ -1,11 +1,11 @@
-package xavier.Interest.polymerization.builder;
+package xavier.Interest.polymerization;
 
+import xavier.Interest.polymerization.builder.IDefaultPolymerizationBuilder;
 import xavier.Interest.polymerization.entity.DisperseData;
 import xavier.Interest.polymerization.entity.PolymerizationData;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
 
 /**
  * 默认的汇总构建工具

@@ -1,14 +1,16 @@
 package xavier.Interest.polymerization.entity;
 
+import xavier.Interest.polymerization.builder.IRuleConfig;
+
 import java.math.BigDecimal;
 
-public class RuleConfig {
+public class RuleConfig extends IRuleConfig<DisperseData> {
     private BigDecimal upLimit;
     private BigDecimal lowLimit;
     private OverType overType;
 
     /**
-     * x >= lowLimit && x <= upLimit
+     * x > lowLimit && x <= upLimit
      *
      * @param upLimit
      * @param lowLimit
@@ -44,8 +46,54 @@ public class RuleConfig {
         this.overType = overType;
     }
 
+    /**
+     * lowLimit < x <= upLimit
+     *
+     * @param data
+     * @return
+     */
+    @Override
+    public boolean match(DisperseData data) {
+        BigDecimal value = data.getDataValue();
+        if (upLimit == null && lowLimit == null) {
+            throw new IllegalArgumentException("无效的上下限设置");
+        }
+        // 没有上界
+        if (upLimit == null) {
+            return value.compareTo(lowLimit) > 0;
+        }
+        // 没有下界
+        if (lowLimit == null) {
+            return value.compareTo(upLimit) <= 0;
+        }
+        // lowLimit < x <= upLimit
+        return value.compareTo(upLimit) <= 0 && value.compareTo(lowLimit) > 0;
+    }
+
+    public OverType matchType(DisperseData data) {
+        return match(data) ? this.overType : OverType.NORMAL;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if (o instanceof RuleConfig) {
+            RuleConfig rc = ((RuleConfig) o);
+            if (rc.getLowLimit() == null)
+                return -1;
+            if (rc.getUpLimit() == null)
+                return 1;
+            return this.getLowLimit().compareTo(rc.getLowLimit());
+        }
+        return -1;
+    }
+
     @Override
     public String toString() {
-        return "RuleConfig{}";
+        return "RuleConfig{" +
+                "upLimit=" + upLimit +
+                ", lowLimit=" + lowLimit +
+                ", overType=" + overType +
+                '}';
     }
+
 }
