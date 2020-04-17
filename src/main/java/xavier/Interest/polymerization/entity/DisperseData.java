@@ -1,27 +1,31 @@
 package xavier.Interest.polymerization.entity;
 
-import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import xavier.Interest.polymerization.basic.DataUtil;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 离散数据对象，基本属性，数据值，数据时间
  */
 public class DisperseData {
+    static final Logger logger = LoggerFactory.getLogger(DisperseData.class);
+
     private BigDecimal dataValue;
-    private Date dataDate;
+    private LocalDateTime dataDate;
 
     public DisperseData() {
+
     }
 
-    public DisperseData(Number value, Date dataDate) {
+    public DisperseData(Number value, LocalDateTime dataDate) {
         this.dataDate = dataDate;
         setDataValue(value);
     }
 
-    public DisperseData(BigDecimal dataValue, Date dataDate) {
+    public DisperseData(BigDecimal dataValue, LocalDateTime dataDate) {
         this.dataValue = dataValue;
         this.dataDate = dataDate;
     }
@@ -45,9 +49,10 @@ public class DisperseData {
      * @param value 数值字面量
      */
     public void setDataValue(String value) {
-        if (StringUtils.isNumeric(value)) {
+        try {
             this.dataValue = new BigDecimal(value);
-        } else {
+        } catch (Exception e){
+            logger.debug("非法的数值赋值【{1}】",value);
             this.dataValue = BigDecimal.ZERO;
         }
     }
@@ -56,11 +61,11 @@ public class DisperseData {
         this.dataValue = dataValue;
     }
 
-    public Date getDataDate() {
+    public LocalDateTime getDataDate() {
         return dataDate;
     }
 
-    public void setDataDate(Date dataDate) {
+    public void setDataDate(LocalDateTime dataDate) {
         this.dataDate = dataDate;
     }
 }

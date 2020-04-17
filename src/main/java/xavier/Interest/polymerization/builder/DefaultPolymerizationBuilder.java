@@ -4,7 +4,8 @@ import xavier.Interest.polymerization.entity.DisperseData;
 import xavier.Interest.polymerization.entity.PolymerizationData;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
+
 
 /**
  * 默认的汇总构建工具
@@ -17,23 +18,22 @@ public class DefaultPolymerizationBuilder
     }
 
     public static DefaultPolymerizationBuilder getInstance(DisperseData disperseData) {
-        DefaultPolymerizationBuilder holder = new DefaultPolymerizationBuilder();
-        holder.createData(disperseData);
-        return holder;
+        DefaultPolymerizationBuilder builder = new DefaultPolymerizationBuilder();
+        builder.createData(disperseData);
+        return builder;
     }
 
     public static DefaultPolymerizationBuilder getInstance() {
-        DefaultPolymerizationBuilder holder = new DefaultPolymerizationBuilder();
-        return holder;
+        DefaultPolymerizationBuilder builder = new DefaultPolymerizationBuilder();
+        return builder;
     }
 
     public PolymerizationData createData(DisperseData disperseData) {
         PolymerizationData polymerizationData = new PolymerizationData();
 
         polymerizationData.setStartTime(disperseData.getDataDate());
-        polymerizationData.setSumValue(disperseData.getDataValue());
+        polymerizationData.setStartValue(disperseData.getDataValue());
 
-        polymerizationData.setEndValue(disperseData.getDataValue());
         addSumValue(polymerizationData, disperseData.getDataValue());
         updateExtremum(polymerizationData, disperseData.getDataValue(), disperseData.getDataDate());
         return polymerizationData;
@@ -64,7 +64,7 @@ public class DefaultPolymerizationBuilder
      * @param newValue
      * @param newDate
      */
-    public void updateExtremum(PolymerizationData polymerizationData, BigDecimal newValue, Date newDate) {
+    public void updateExtremum(PolymerizationData polymerizationData, BigDecimal newValue, LocalDateTime newDate) {
         // 最大小于新的值
         if (polymerizationData.getMaxValue() == null || polymerizationData.getMaxValue().compareTo(newValue) < 0) {
             polymerizationData.setMaxValue(newValue);
@@ -83,13 +83,16 @@ public class DefaultPolymerizationBuilder
      * @param value 新的项目值
      */
     public void addSumValue(PolymerizationData polymerizationData, BigDecimal value) {
-        polymerizationData.getSumValue().add(value);
+        BigDecimal sumValue = polymerizationData.getSumValue();
+        polymerizationData.setSumValue(sumValue.add(value));
         // 大于0
         if (value.compareTo(BigDecimal.ZERO) > 0) {
-            polymerizationData.getSumPositiveValue().add(value);
+            BigDecimal sumPositiveValue = polymerizationData.getSumPositiveValue();
+            polymerizationData.setSumPositiveValue(sumPositiveValue.add(value));
         } else {
             // 小于0
-            polymerizationData.getSumNegativeValue().add(value);
+            BigDecimal sumNegativeValue = polymerizationData.getSumNegativeValue();
+            polymerizationData.setSumNegativeValue(sumNegativeValue.add(value));
         }
     }
 }

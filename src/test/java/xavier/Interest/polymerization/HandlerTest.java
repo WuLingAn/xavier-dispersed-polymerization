@@ -11,7 +11,7 @@ import xavier.Interest.polymerization.entity.Rule;
 import java.util.List;
 
 public class HandlerTest {
-    Logger logger = LoggerFactory.getLogger(HandlerTest.class);
+    static final Logger logger = LoggerFactory.getLogger(HandlerTest.class);
     private List<DisperseData> disperseDataList;
     private Rule rule;
 

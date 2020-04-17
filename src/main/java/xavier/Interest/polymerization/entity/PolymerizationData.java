@@ -1,7 +1,7 @@
 package xavier.Interest.polymerization.entity;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 汇总类
@@ -9,17 +9,17 @@ import java.util.Date;
 public class PolymerizationData {
     private OverType message;
     // 开始时间
-    private Date startTime;
+    private LocalDateTime startTime;
     // 结束时间
-    private Date endTime;
+    private LocalDateTime endTime;
     // 最大值
     private BigDecimal maxValue;
     // 最大值时间
-    private Date maxValueDate;
+    private LocalDateTime maxValueDate;
     // 最小值
     private BigDecimal minValue;
     // 最小值时间
-    private Date minValueDate;
+    private LocalDateTime minValueDate;
     // 开始值
     private BigDecimal startValue;
     // 结束值
@@ -39,19 +39,19 @@ public class PolymerizationData {
         this.message = message;
     }
 
-    public Date getStartTime() {
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
+    public LocalDateTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }
 
@@ -111,19 +111,37 @@ public class PolymerizationData {
         this.sumNegativeValue = sumNegativeValue;
     }
 
-    public Date getMaxValueDate() {
+    public LocalDateTime getMaxValueDate() {
         return maxValueDate;
     }
 
-    public void setMaxValueDate(Date maxValueDate) {
+    public void setMaxValueDate(LocalDateTime maxValueDate) {
         this.maxValueDate = maxValueDate;
     }
 
-    public Date getMinValueDate() {
+    public LocalDateTime getMinValueDate() {
         return minValueDate;
     }
 
-    public void setMinValueDate(Date minValueDate) {
+    public void setMinValueDate(LocalDateTime minValueDate) {
         this.minValueDate = minValueDate;
+    }
+
+    @Override
+    public String toString() {
+        return "PolymerizationData{" +
+                "message=" + message +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", maxValue=" + maxValue +
+                ", maxValueDate=" + maxValueDate +
+                ", minValue=" + minValue +
+                ", minValueDate=" + minValueDate +
+                ", startValue=" + startValue +
+                ", endValue=" + endValue +
+                ", sumValue=" + sumValue +
+                ", sumPositiveValue=" + sumPositiveValue +
+                ", sumNegativeValue=" + sumNegativeValue +
+                '}';
     }
 }
