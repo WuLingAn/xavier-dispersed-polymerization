@@ -5,29 +5,23 @@ import org.slf4j.LoggerFactory;
 import xavier.Interest.polymerization.builder.IRule;
 import xavier.Interest.polymerization.builder.IRuleConfig;
 import xavier.Interest.polymerization.entity.DisperseData;
+
 import xavier.Interest.polymerization.entity.RuleConfig;
+
 
 import java.util.*;
 
 public class Rule implements IRule<DisperseData> {
     private static final Logger logger = LoggerFactory.getLogger(Rule.class);
 
-    private List<RuleConfig> ruleConfigs = new ArrayList<>();
-    // 默认排序规则，以下限逆序排序
-    private Comparator<RuleConfig> configOrderComparator = (rc1, rc2) -> {
-        if (rc1.getLowLimit() == null)
-            return -1;
-        if (rc2.getUpLimit() == null)
-            return 1;
-        return rc2.getLowLimit().compareTo(rc1.getLowLimit());
-    };
+    private List<IRuleConfig> ruleConfigs = new ArrayList<>();
 
     // 是否开启规则配置互斥
     private boolean isExclude = true;
     // 是否排序完成
     private boolean hasOrder;
 
-    public Rule(List<RuleConfig> ruleConfigs) {
+    public Rule(List<IRuleConfig> ruleConfigs) {
         this.ruleConfigs = ruleConfigs;
     }
 
@@ -40,7 +34,7 @@ public class Rule implements IRule<DisperseData> {
      *
      * @param newRuleConfigs
      */
-    public void addRuleConfig(RuleConfig... newRuleConfigs) {
+    public void addRuleConfig(IRuleConfig... newRuleConfigs) {
         this.ruleConfigs.addAll(Arrays.asList(newRuleConfigs));
         orderRuleConfig();
     }
@@ -51,26 +45,11 @@ public class Rule implements IRule<DisperseData> {
      * @return
      */
     public Rule orderRuleConfig() {
-        if (!hasOrder && configOrderComparator != null) {
-            Collections.sort(ruleConfigs, configOrderComparator);
+        if (!hasOrder) {
+            Collections.sort(ruleConfigs, IRuleConfig::compareTo);
             hasOrder = true;
         }
         return this;
-    }
-
-    /**
-     * 添加自定义排序规则
-     *
-     * @param configOrderComparator
-     */
-    public void setConfigOrderComparator(Comparator<RuleConfig> configOrderComparator) {
-        if (configOrderComparator == null) {
-            throw new NullPointerException("设置的排序规则为NULL");
-        }
-        if (this.configOrderComparator != configOrderComparator) {
-            this.configOrderComparator = configOrderComparator;
-            hasOrder = false;
-        }
     }
 
     /**
@@ -101,7 +80,10 @@ public class Rule implements IRule<DisperseData> {
 
     @Override
     public IRuleConfig match(DisperseData disperseData) {
-        //for ()
+        for (IRuleConfig ruleConfig :ruleConfigs) {
+            if (ruleConfig.match(disperseData))
+                return ruleConfig;
+        }
         return null;
     }
 }

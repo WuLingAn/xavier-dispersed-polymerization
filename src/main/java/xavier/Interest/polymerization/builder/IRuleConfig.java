@@ -24,6 +24,10 @@ public abstract class IRuleConfig<T> implements Comparable {
      */
     public abstract boolean match(T data);
 
+    public <TP> TP getType(){
+        return null;
+    }
+
     @Override
     public int compareTo(Object o) {
         if (o instanceof IRuleConfig) {

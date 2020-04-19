@@ -1,5 +1,7 @@
 package xavier.Interest.polymerization.entity;
 
+import xavier.Interest.polymerization.builder.IPolymerizationType;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -7,7 +9,7 @@ import java.time.LocalDateTime;
  * 汇总类
  */
 public class PolymerizationData {
-    private OverType message;
+    private IPolymerizationType type;
     // 开始时间
     private LocalDateTime startTime;
     // 结束时间
@@ -31,12 +33,12 @@ public class PolymerizationData {
     // 负数求和
     private BigDecimal sumNegativeValue = new BigDecimal(0);
 
-    public OverType getMessage() {
-        return message;
+    public IPolymerizationType getType() {
+        return type;
     }
 
-    public void setMessage(OverType message) {
-        this.message = message;
+    public void setType(IPolymerizationType type) {
+        this.type = type;
     }
 
     public LocalDateTime getStartTime() {
@@ -130,7 +132,7 @@ public class PolymerizationData {
     @Override
     public String toString() {
         return "PolymerizationData{" +
-                "message=" + message +
+                "PolymerizationType=" + type +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
                 ", maxValue=" + maxValue +

@@ -1,8 +1,11 @@
 package xavier.Interest.polymerization;
 
+import xavier.Interest.polymerization.basic.DataUtil;
 import xavier.Interest.polymerization.builder.IDefaultPolymerizationBuilder;
+import xavier.Interest.polymerization.builder.IPolymerizationType;
 import xavier.Interest.polymerization.entity.DisperseData;
 import xavier.Interest.polymerization.entity.PolymerizationData;
+import xavier.Interest.polymerization.entity.PolymerizationType;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -19,7 +22,7 @@ public class DefaultPolymerizationBuilder
 
     public static DefaultPolymerizationBuilder getInstance(DisperseData disperseData) {
         DefaultPolymerizationBuilder builder = new DefaultPolymerizationBuilder();
-        builder.createData(disperseData);
+        builder.createData(disperseData,null);
         return builder;
     }
 
@@ -28,8 +31,9 @@ public class DefaultPolymerizationBuilder
         return builder;
     }
 
-    public PolymerizationData createData(DisperseData disperseData) {
+    public PolymerizationData createData(DisperseData disperseData, IPolymerizationType type) {
         PolymerizationData polymerizationData = new PolymerizationData();
+        polymerizationData.setType(type);
 
         polymerizationData.setStartTime(disperseData.getDataDate());
         polymerizationData.setStartValue(disperseData.getDataValue());
@@ -47,13 +51,13 @@ public class DefaultPolymerizationBuilder
      */
     public PolymerizationData updateDate(PolymerizationData polymerizationData, DisperseData date) {
         updateExtremum(polymerizationData, date.getDataValue(), date.getDataDate());
+        polymerizationData.setEndValue(date.getDataValue());
+        addSumValue(polymerizationData,date.getDataValue());
         return polymerizationData;
     }
 
 
     public PolymerizationData closeDate(PolymerizationData polymerizationData, DisperseData date) {
-        updateDate(polymerizationData, date);
-        polymerizationData.setEndValue(date.getDataValue());
         polymerizationData.setEndTime(date.getDataDate());
         return polymerizationData;
     }
@@ -67,6 +71,7 @@ public class DefaultPolymerizationBuilder
     public void updateExtremum(PolymerizationData polymerizationData, BigDecimal newValue, LocalDateTime newDate) {
         // 最大小于新的值
         if (polymerizationData.getMaxValue() == null || polymerizationData.getMaxValue().compareTo(newValue) < 0) {
+
             polymerizationData.setMaxValue(newValue);
             polymerizationData.setMaxValueDate(newDate);
         }

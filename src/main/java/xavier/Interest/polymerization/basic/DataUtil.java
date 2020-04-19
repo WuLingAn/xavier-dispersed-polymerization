@@ -3,6 +3,9 @@ package xavier.Interest.polymerization.basic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
+import java.util.Optional;
+
 public final class DataUtil {
     private static final Logger logger = LoggerFactory.getLogger(DataUtil.class);
 
@@ -30,5 +33,24 @@ public final class DataUtil {
      */
     public static String numberValueToString(Number number) {
         return numberValueToString(number, null);
+    }
+
+    /**
+     * BigDecimal类型的加法，返回值可能是null。Optional能高效解决null问题吗
+     * @param bigDecimals
+     * @return
+     */
+    public static BigDecimal bigDecimalAdd(BigDecimal... bigDecimals){
+        BigDecimal result = null;
+        for (BigDecimal bigDecimal : bigDecimals) {
+            if (result == null){
+                result = bigDecimal;
+            }else {
+                if (bigDecimal != null){
+                    result.add(bigDecimal);
+                }
+            }
+        }
+        return result;
     }
 }

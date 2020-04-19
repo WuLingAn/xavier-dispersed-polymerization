@@ -6,7 +6,7 @@ public interface IDefaultPolymerizationBuilder<T, V> {
     /**
      * 初始化汇总数据对象
      */
-    T createData(V data);
+    T createData(V data,IPolymerizationType type);
 
     /**
      * 更新汇总数据对象

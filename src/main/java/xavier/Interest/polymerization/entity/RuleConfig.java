@@ -1,5 +1,6 @@
 package xavier.Interest.polymerization.entity;
 
+import xavier.Interest.polymerization.basic.DataUtil;
 import xavier.Interest.polymerization.builder.IRuleConfig;
 
 import java.math.BigDecimal;
@@ -7,7 +8,7 @@ import java.math.BigDecimal;
 public class RuleConfig extends IRuleConfig<DisperseData> {
     private BigDecimal upLimit;
     private BigDecimal lowLimit;
-    private OverType overType;
+    private PolymerizationType overType;
 
     /**
      * x > lowLimit && x <= upLimit
@@ -16,10 +17,28 @@ public class RuleConfig extends IRuleConfig<DisperseData> {
      * @param lowLimit
      * @param overType
      */
-    public RuleConfig(BigDecimal upLimit, BigDecimal lowLimit, OverType overType) {
+    public RuleConfig(BigDecimal upLimit, BigDecimal lowLimit, PolymerizationType overType) {
         this.upLimit = upLimit;
         this.lowLimit = lowLimit;
         this.overType = overType;
+    }
+
+    @Override
+    public PolymerizationType getType() {
+        return overType;
+    }
+
+    /**
+     * x > lowLimit && x <= upLimit
+     *
+     * @param upLimit
+     * @param lowLimit
+     * @param overType
+     */
+    public RuleConfig(Number upLimit, Number lowLimit, PolymerizationType overType) {
+        this(new BigDecimal(DataUtil.numberValueToString(upLimit)),
+                new BigDecimal(DataUtil.numberValueToString(lowLimit)),
+                overType);
     }
 
     public BigDecimal getUpLimit() {
@@ -38,11 +57,11 @@ public class RuleConfig extends IRuleConfig<DisperseData> {
         this.lowLimit = lowLimit;
     }
 
-    public OverType getOverType() {
+    public PolymerizationType getOverType() {
         return overType;
     }
 
-    public void setOverType(OverType overType) {
+    public void setOverType(PolymerizationType overType) {
         this.overType = overType;
     }
 
@@ -70,8 +89,8 @@ public class RuleConfig extends IRuleConfig<DisperseData> {
         return value.compareTo(upLimit) <= 0 && value.compareTo(lowLimit) > 0;
     }
 
-    public OverType matchType(DisperseData data) {
-        return match(data) ? this.overType : OverType.NORMAL;
+    public PolymerizationType matchType(DisperseData data) {
+        return match(data) ? this.overType : PolymerizationType.DEFAULT_TYPES.get(0);
     }
 
     @Override

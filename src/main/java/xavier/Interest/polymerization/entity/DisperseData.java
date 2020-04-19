@@ -68,4 +68,12 @@ public class DisperseData {
     public void setDataDate(LocalDateTime dataDate) {
         this.dataDate = dataDate;
     }
+
+    @Override
+    public String toString() {
+        return "DisperseData{" +
+                "dataValue=" + dataValue +
+                ", dataDate=" + dataDate +
+                '}';
+    }
 }
